@@ -1,0 +1,123 @@
+<head>
+  <title>bubbleblue_meteor</title>
+  
+  <script type="text/javascript" src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+  <script type="text/javascript" charset="utf-8">
+    
+    var BubbleAnimation = function (bubble_id) {
+      var self = this;
+      var bubble_interval;
+      var end_py = 80, start_py = 100;
+      var bubble_dom = false;
+      var px, py;
+
+      self.boom = function () {
+
+        bubble_dom
+         .css({'padding' : '30px 70px'})
+         .fadeOut('fast', function () { $(this).remove(); });
+      };
+
+      self.up = function () {
+        py = py + 3;
+        bubble_dom.css({'left': px + '%', 'bottom': py + 'px'});
+        if(py/$(window).height()*100 > end_py) {
+
+          clearInterval(bubble_interval);
+          self.boom();
+        }
+      }
+
+      self.init = function () {
+        px = Math.round(Math.random()*80);
+        py = start_py;
+        
+        bubble_dom = $('#' + bubble_id);
+        bubble_dom.css({'bottom': py + 'px', 'left': px + '%'});        
+        bubble_interval = setInterval(self.up, 30);
+      }
+
+    }
+    
+  </script>
+  
+</head>
+
+<body>
+  <div id="wrapper">
+
+    <div id="water">
+      <div id="serf"></div>
+
+      <div class="fish">
+        <div id="fish-item-2">
+          <img id="fish2" src="/media/green-fish.png" />
+        </div>
+      </div>
+      <div class="fish">
+        <div id="fish-item-1">
+          <img id="fish1" src="/media/blue-fish.png" />
+        </div>
+      </div>
+      <div class="fish">
+        <div id="fish-item-3">
+          <img id="fish3" src="/media/purple-littleFish.png" />
+        </div>
+      </div>
+
+      <div class="fish-shadow-wrapper">
+        <div class="fish-shadow-container">
+          <div class="fish fish-shadow">
+            <div id="fish-item-5">
+              <img id="fish5" src="/media/shadow-fish02.png" />
+            </div>
+          </div>
+          <div class="fish fish-shadow">
+            <div id="fish-item-4">
+              <img id="fish4" src="/media/shadow-fish.png" />
+            </div>
+          </div>
+        </div>
+      </div>
+    
+      
+      {{> bubble_container}}
+
+    </div>
+    <div id="coral"></div>
+  </div>
+</body>
+
+<template name="bubble_container">
+  
+    {{# each bubble_list}}
+      {{> bubble_item}}
+    {{/each}}
+    
+    {{> bubble_form}}
+    
+  
+</template>
+
+<template name="bubble_item">
+  <div id="{{_id}}" class="bubble" style="display: none;">
+    <div class="bubble-inner">
+      {{message}}
+    </div>
+  </div>
+</template>
+
+
+<template name="bubble_form">
+  
+  <form action="" id="message-form" method="get" accept-charset="utf-8">
+    <div class="form-container">
+      <div class="form-wrapper">
+
+        <input type="text" name="message" value="" id="message">
+        <input type="submit" value="Bubble" id="submit">
+        <div class="gloomy-background"></div>
+      </div>
+    </div>
+  </form>
+</template>
